@@ -1,6 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import {Template} from 'meteor/templating';
 import {MessagesCollection} from '../db/MessagesCollection';
+import {UsersInfoCollection} from '../db/UsersInfoCollection';
 import {Tracker} from 'meteor/tracker';
 import {ReactiveDict} from 'meteor/reactive-dict';
 import './App.html';
@@ -16,11 +17,14 @@ const isUserLogged = () => !!getUser();
 Template.mainContainer.onCreated(function mainContainerOnCreated() {
   this.state = new ReactiveDict();
 
-  const handler = Meteor.subscribe('messages');
   const handler2 = Meteor.subscribe('usersInfo.all');
 
   Tracker.autorun(() => {
-    this.state.set(IS_LOADING_STRING, !handler.ready() && !handler2.ready());
+    const users = UsersInfoCollection.find().fetch();
+    users.forEach((user) => {
+      Meteor.subscribe('messages', user?.userId);
+    });
+    this.state.set(IS_LOADING_STRING, !handler2.ready());
     this.state.set('registered', true);
   });
 });

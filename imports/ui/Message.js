@@ -1,6 +1,5 @@
 import {Meteor} from 'meteor/meteor';
 import {Template} from 'meteor/templating';
-import {MessagesCollection} from '../db/MessagesCollection';
 import {UsersInfoCollection} from '../db/UsersInfoCollection';
 import moment from 'moment';
 import './Message.html';
