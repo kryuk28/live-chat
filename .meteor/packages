@@ -26,3 +26,4 @@ blaze-hot               # Update files using Blaze's API with HMR
 accounts-base
 reactive-dict
 accounts-password
+mrt:smart-publish

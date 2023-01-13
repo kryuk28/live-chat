@@ -17,14 +17,10 @@ const isUserLogged = () => !!getUser();
 Template.mainContainer.onCreated(function mainContainerOnCreated() {
   this.state = new ReactiveDict();
 
-  const handler2 = Meteor.subscribe('usersInfo.all');
+  const handler = Meteor.subscribe('messages');
 
   Tracker.autorun(() => {
-    const users = UsersInfoCollection.find().fetch();
-    users.forEach((user) => {
-      Meteor.subscribe('messages', user?.userId);
-    });
-    this.state.set(IS_LOADING_STRING, !handler2.ready());
+    this.state.set(IS_LOADING_STRING, !handler.ready());
     this.state.set('registered', true);
   });
 });
